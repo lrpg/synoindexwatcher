@@ -90,8 +90,11 @@ def build_filter(args):
     blacklist = re.compile(args.blacklist) if args.blacklist != None else None;
     whitelist = re.compile(args.whitelist) if args.whitelist != None else None;
     def filter(name, parent, is_dir):
-        if whitelist != None and whitelist.search(name) == None:
-            return False
+        if whitelist != None:
+            if is_dir and blacklist.search(name) == None:
+                return True
+            elif whitelist.search(name) == None:
+                return False
         if blacklist != None and blacklist.search(name) != None:
             return False
         return True
